@@ -25,11 +25,14 @@ class NewIssueViewController: UIViewController {
         })
     }
     
+    @IBAction func backButtonPressed(_ sender: Any) {
+         self.navigationController?.popViewController(animated: true)
+    }
+    
     func issueCreated(_ issue: Issue){
-        print("ISSUE NUMBER: "+issue.number!)
+        print("ISSUE NUMBER: "+(issue.number)!)
         print("redirecting to list view")
         self.navigationController?.popViewController(animated: true)
-        
     }
     
     override func viewDidLoad() {
