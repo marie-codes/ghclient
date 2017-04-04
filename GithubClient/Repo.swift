@@ -19,4 +19,8 @@ class Repo: EVNetworkingObject{
     var forks_count: String?
     var stargazers_count: String?
     var open_issues: String?
+    
+    func getIssuesUrl() -> String{
+        return (self.issues_url?.replacingOccurrences(of: "{/number}", with: ""))!
+    }
 }

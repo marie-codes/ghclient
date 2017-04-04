@@ -20,5 +20,6 @@ class Issue: EVNetworkingObject{
     var body: String?
     var user: User = User()
     var repository_url: String?
+    var number: String?
     
 }

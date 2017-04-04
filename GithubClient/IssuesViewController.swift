@@ -14,35 +14,32 @@ class IssuesViewController: UITableViewController{
     var repo: Repo?
     var issues: [Issue] = [Issue]()
     
+    @IBOutlet weak var loadingContainer: UIView!
+    
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    
     @IBAction func addNewBtnPressed(_ sender: UIBarButtonItem) {
         self.performSegue(withIdentifier: "showNewIssue", sender: self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.issuesLoaded(_:)), name: NSNotification.Name(rawValue: "issues-loaded"), object: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(self.issueUpdated), name: NSNotification.Name(rawValue: "issue-updated"), object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.loadingContainer.isHidden = false
+        self.loadingIndicator.startAnimating()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Api.getIssuesList(url: prepareUrl(str: repo!.issues_url!))
-        
-    }
-    
-    func prepareUrl(str: String) -> String{
-        let c = str.characters
-        let r = c.startIndex..<c.index(c.endIndex, offsetBy: -9)
-        let substring = String(str[r])
-        return substring!
-    }
-    
-    func issuesLoaded(_ notification: NSNotification){
-        if let repo_issues = notification.userInfo?["issues"] as? [Issue] {
-            issues = repo_issues
-            print(issues)
+        Api.getIssuesList(url: (repo?.getIssuesUrl())!, success: { (response) in
+            self.issues = response
             self.tableView.reloadData()
-        }
+            self.loadingIndicator.stopAnimating()
+            self.loadingContainer.isHidden = true
+        })
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

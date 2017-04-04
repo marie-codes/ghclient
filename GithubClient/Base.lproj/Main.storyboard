@@ -292,9 +292,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="U65-LT-pAF" userLabel="Loading Container">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="57"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Az4-yy-dsE">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="57"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="BW0-Op-JUU">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="57"/>
+                                            <color key="color" red="0.1126538212" green="0.1126538212" blue="0.1126538212" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="BW0-Op-JUU" firstAttribute="centerX" secondItem="Az4-yy-dsE" secondAttribute="centerX" id="P75-tC-Ff0"/>
+                                    </constraints>
+                                </stackView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="Az4-yy-dsE" secondAttribute="bottom" id="Bh0-w8-HDt"/>
+                                <constraint firstItem="Az4-yy-dsE" firstAttribute="top" secondItem="U65-LT-pAF" secondAttribute="top" id="LNr-JW-3Ow"/>
+                                <constraint firstItem="Az4-yy-dsE" firstAttribute="leading" secondItem="U65-LT-pAF" secondAttribute="leading" id="iwp-mN-Kaa"/>
+                                <constraint firstAttribute="trailing" secondItem="Az4-yy-dsE" secondAttribute="trailing" id="ut1-a7-h39"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="issueCell" id="Nhh-pm-Fn5" customClass="IssueCell" customModule="GithubClient" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="85" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nhh-pm-Fn5" id="wLP-1E-bTf">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
@@ -336,6 +361,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="loadingContainer" destination="U65-LT-pAF" id="8UC-uo-aDc"/>
+                        <outlet property="loadingIndicator" destination="BW0-Op-JUU" id="quT-CX-88G"/>
                         <segue destination="Fpf-ao-l62" kind="show" identifier="issue-detail" id="RIx-Q2-E0E"/>
                         <segue destination="E9C-IB-okc" kind="show" identifier="showNewIssue" id="PSc-5D-F22"/>
                     </connections>

@@ -15,34 +15,24 @@ class NewIssueViewController: UIViewController {
     
     @IBOutlet weak var body: UITextView!
     @IBOutlet weak var issueTitle: UITextField!
-   
+    
     @IBAction func saveButtonPressed(_ sender: Any) {
         issue.title = issueTitle.text
         issue.body = body.text
-        Api.createIssue(issue: issue, repo_name: repo.name!)
-        _ = navigationController?.popViewController(animated: true)
+        print("sending api request to create new issue")
+        Api.createIssue(issue: issue, repo_name: repo.name!, success: { (response) in
+            self.issueCreated(response)
+        })
+    }
+    
+    func issueCreated(_ issue: Issue){
+        print("ISSUE NUMBER: "+issue.number!)
+        print("redirecting to list view")
+        self.navigationController?.popViewController(animated: true)
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(repo)
-        // Do any additional setup after loading the view.
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
