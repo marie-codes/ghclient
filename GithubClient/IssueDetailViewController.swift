@@ -11,7 +11,8 @@ import UIKit
 class IssueDetailViewController: UIViewController {
     
     var issue: Issue?
-    @IBOutlet weak var issueTitle: UILabel!
+    
+    @IBOutlet weak var issueTitle: UITextField!
     @IBOutlet weak var statusButton: UIButton!
     
     @IBOutlet weak var issueNumber: UILabel!
@@ -25,7 +26,13 @@ class IssueDetailViewController: UIViewController {
     
     @IBAction func saveButtonPressed(_ sender: Any) {
         issue?.body = body.text
+         issue?.title = issueTitle.text
         Api.updateIssue(issue: issue!)
+         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func backButtonPressed(_ sender: Any) {
+         self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func closeButtonClicked(_ sender: Any) {
@@ -70,12 +77,6 @@ class IssueDetailViewController: UIViewController {
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
     /*
      // MARK: - Navigation
      
@@ -85,5 +86,4 @@ class IssueDetailViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
-    
 }

@@ -12,14 +12,18 @@ import UIKit
 class IssuesViewController: UITableViewController{
     
     var repo: Repo?
+    var issue: Issue?
     var issues: [Issue] = [Issue]()
-    
+
     @IBOutlet weak var loadingContainer: UIView!
-    
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     @IBAction func addNewBtnPressed(_ sender: UIBarButtonItem) {
         self.performSegue(withIdentifier: "showNewIssue", sender: self)
+    }
+    
+    @IBAction func backButtonPressed(_ sender: Any) {
+          self.navigationController?.popViewController(animated: true)
     }
     
     override func viewDidLoad() {
@@ -50,13 +54,27 @@ class IssuesViewController: UITableViewController{
         return 1
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "issueCell", for: indexPath) as! IssueCell
         let issue = issueForIndexPath(indexPath: indexPath)
         cell.titleLabel.text = issue.title
         cell.authorLabel.text = issue.created_at
+        //cell.statusLabel.text = issue.state
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            issues.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
+        self.performSegue(withIdentifier: "issue-detail", sender: indexPath)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -70,11 +88,6 @@ class IssuesViewController: UITableViewController{
             let destinationVC = segue.destination as! NewIssueViewController
             destinationVC.repo = repo!
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
-        self.performSegue(withIdentifier: "issue-detail", sender: indexPath)
     }
 }
 
